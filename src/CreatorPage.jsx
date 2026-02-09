@@ -24,11 +24,15 @@ const CreatorPage = () => {
 
   const generateLink = () => {
     // Standardize YouTube link to embed format for background play
+    // CHANGE 3: Better YouTube regex to handle extra URL parameters
     let music = formData.musicUrl;
-    if (music.includes('watch?v=')) {
-      music = music.replace('watch?v=', 'embed/');
-    } else if (music.includes('youtu.be/')) {
-      music = `https://www.youtube.com/embed/${music.split('/').pop()}`;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = music.match(regExp);
+    const videoId = (match && match[2].length === 11) ? match[2] : null;
+
+    if (videoId) {
+      // enablejsapi=1 is REQUIRED for your floating pause/play button to work
+      music = `https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1`;
     }
 
     const giftData = {
