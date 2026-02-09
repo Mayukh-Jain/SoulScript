@@ -93,7 +93,35 @@ const RevealPage = () => {
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
   };
+  const handleOpen = () => {
+    setIsOpened(true);
 
+    // 1. Center burst
+    confetti({
+      particleCount: 150,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#FF85A1', '#FFB1B1', '#FFFFFF']
+    });
+
+    // 2. Left side burst
+    confetti({
+      particleCount: 80,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 },
+      colors: ['#FF85A1', '#FFFFFF']
+    });
+
+    // 3. Right side burst
+    confetti({
+      particleCount: 80,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1 },
+      colors: ['#FF85A1', '#FFFFFF']
+    });
+  };
   if (!giftData) return null;
 
   const slide = "h-screen w-full flex flex-col items-center justify-center snap-start p-6 relative shrink-0 overflow-hidden";
@@ -129,10 +157,28 @@ const RevealPage = () => {
 
       <AnimatePresence>
         {!isOpened ? (
-          <motion.div key="env" exit={{ opacity: 0, scale: 0.9 }} className="h-screen w-full flex items-center justify-center snap-start z-50 bg-[#FFF5F5]">
-            <motion.div onClick={() => setIsOpened(true)} whileHover={{ scale: 1.05 }} className="bg-white p-12 md:p-16 rounded-[4rem] shadow-2xl cursor-pointer text-center border-b-[12px] border-pink-100 max-w-sm w-full">
-              <div className="text-8xl md:text-9xl mb-6">✉️</div>
-              <h1 className="text-xl md:text-2xl font-bold text-pink-600 italic tracking-tighter uppercase leading-tight">For {giftData.partnerName}</h1>
+          <motion.div 
+            key="envelope-screen"
+            exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.5 } }} 
+            className="h-screen w-full flex items-center justify-center snap-start z-50 bg-[#FFF5F5]"
+          >
+            <motion.div 
+              onClick={handleOpen} // Triggers the triple confetti burst
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-white p-16 rounded-[4rem] shadow-2xl cursor-pointer text-center border-b-[12px] border-pink-100 max-w-sm w-full relative group"
+            >
+              <motion.div 
+                animate={{ y: [0, -10, 0] }} 
+                transition={{ duration: 2, repeat: Infinity }}
+                className="text-9xl mb-6 drop-shadow-lg"
+              >
+                ✉️
+              </motion.div>
+              <h1 className="text-2xl font-bold text-pink-600 italic tracking-tighter uppercase">
+                For {giftData.partnerName}
+              </h1>
+              <p className="text-[10px] text-gray-300 mt-4 uppercase tracking-[0.3em]">Click to Open</p>
             </motion.div>
           </motion.div>
         ) : (
