@@ -46,9 +46,17 @@ const CreatorPage = () => {
     // Safe UTF-8 Encoding for Emojis & Special Chars
     const jsonString = JSON.stringify(giftData);
     const bytes = new TextEncoder().encode(jsonString);
-    const base64Data = btoa(String.fromCharCode(...bytes));
+    
+    // Use a more stable method to convert bytes to Base64
+    let binary = '';
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    const base64Data = btoa(binary);
 
-    setGeneratedLink(`${window.location.origin}/reveal?gift=${base64Data}`);
+    setGeneratedLink(`${window.location.origin}/reveal?gift=${encodeURIComponent(base64Data)}`);
+    // Added encodeURIComponent to prevent URL special characters from breaking the link
     setIsCopied(false);
     confetti({ particleCount: 60, spread: 60, colors: [formData.themeColor, '#ffffff'] });
   };

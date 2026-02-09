@@ -16,29 +16,37 @@ const RevealPage = () => {
   const targetClicks = 15;
 
   useEffect(() => {
-    const data = searchParams.get('gift');
-    if (data) {
-      try {
-        const binaryString = atob(data);
-        const len = binaryString.length;
-        const bytes = new Uint8Array(len);
-        
-        for (let i = 0; i < len; i++) {
-          bytes[i] = binaryString.charCodeAt(i);
-        }
-
-        let decodedData = new TextDecoder().decode(bytes);
-        
-        // --- CRITICAL FIX: Scrub hidden control characters ---
-        // This prevents the "Bad control character in string literal" error
-        decodedData = decodedData.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
-        
-        setGiftData(JSON.parse(decodedData));
-      } catch (e) {
-        console.error("Link error:", e);
+  const data = searchParams.get('gift');
+  if (data) {
+    try {
+      // 1. Decode URL encoding first, then Base64
+      const decodedBase64 = decodeURIComponent(data);
+      const binaryString = atob(decodedBase64);
+      
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
       }
+
+      // 2. Use TextDecoder with 'utf-8' explicitly
+      const decoder = new TextDecoder('utf-8');
+      let decodedText = decoder.decode(bytes);
+
+      // 3. Scrub ANY non-printable characters or "garbage" bytes
+      // This removes the  and control characters
+      decodedText = decodedText.replace(/[\u0000-\u001F\u007F-\u009F]/g, "");
+      
+      // 4. Final safety check: if it doesn't look like JSON, don't parse it
+      if (decodedText.trim().startsWith('{')) {
+        setGiftData(JSON.parse(decodedText));
+      } else {
+        throw new Error("Invalid JSON structure");
+      }
+    } catch (e) {
+      console.error("Link error:", e);
     }
-  }, [searchParams]);
+  }
+}, [searchParams]);
 
   // Handle Scratch-off initialization
   useEffect(() => {
