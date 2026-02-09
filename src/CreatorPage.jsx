@@ -147,9 +147,45 @@ const CreatorPage = () => {
           </div>
         )}
       </div>
-
-      <footer className="mt-8 text-gray-400 text-[10px] uppercase tracking-widest">
-        Design with ❤️ for your special someone
+      <footer className="mt-12 w-full max-w-2xl text-center space-y-4">
+        <div className="flex items-center justify-center space-x-2 text-gray-400 text-sm">
+          <span>Design with</span>
+          <span className="text-pink-500 animate-pulse text-xl">❤️</span>
+          <span>for your special someone by</span>
+          <span className="font-bold text-gray-600 hover:text-pink-500 transition-colors cursor-default">
+            {formData.senderName || "A Secret Admirer"}
+          </span>
+        </div>
+        
+        <div className="flex justify-center space-x-6">
+          <a href="/" className="text-[10px] uppercase tracking-widest text-gray-400 hover:text-pink-500 transition-all font-bold">
+            Create New
+          </a>
+          <span className="text-gray-200">|</span>
+          <a href="https://postimages.org" target="_blank" rel="noreferrer" className="text-[10px] uppercase tracking-widest text-gray-400 hover:text-pink-500 transition-all font-bold">
+            Upload Images
+          </a>
+          <span className="text-gray-200">|</span>
+          <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+            Mayukh Jain (
+          <a href="https://github.com/Mayukh-Jain/SoulScript" target="_blank" rel="noreferrer" className="text-[10px] uppercase tracking-widest text-gray-400 hover:text-pink-500 transition-all font-bold">
+          GitHub
+          </a>
+          <span className="text-gray-200"> | </span>
+          <a href="https://postimages.org" target="_blank" rel="noreferrer" className="text-[10px] uppercase tracking-widest text-gray-400 hover:text-pink-500 transition-all font-bold">
+          Instagram
+          </a>
+            )
+          </span>
+          <span className="text-gray-200">|</span>
+          <span className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+            © 2026 SoulScript
+          </span>
+        </div>
+        
+        <p className="text-[9px] text-gray-300 max-w-xs mx-auto leading-relaxed uppercase tracking-tighter">
+          No data is stored on our servers. All memories are encrypted within your unique URL.
+        </p>
       </footer>
     </div>
   );
