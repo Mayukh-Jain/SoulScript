@@ -150,15 +150,32 @@ const CreatorPage = () => {
         {generatedLink && (
           <div className="mt-8 p-6 bg-gray-900 rounded-[2.5rem] text-white animate-in slide-in-from-bottom-5 duration-500">
             <p className="text-[10px] opacity-40 mb-2 uppercase tracking-[0.2em] font-bold text-pink-300">Surprise Link Generated:</p>
-            <div className="bg-white/10 p-4 rounded-2xl mb-4 border border-white/10">
-              <p className="text-xs break-all font-mono text-pink-100 leading-relaxed">{generatedLink}</p>
-            </div>
-            <button 
-              onClick={() => {navigator.clipboard.writeText(generatedLink); setIsCopied(true); confetti();}} 
-              className={`w-full py-3 rounded-xl font-bold text-sm transition-all ${isCopied ? 'bg-green-500' : 'bg-pink-500'}`}
-            >
-              {isCopied ? 'COPIED TO CLIPBOARD ✓' : 'COPY LINK TO SEND'}
-            </button>
+    
+    <div className="bg-white/10 p-4 rounded-2xl mb-4 border border-white/10">
+      <p className="text-xs break-all font-mono text-pink-100 leading-relaxed">{generatedLink}</p>
+    </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <button 
+        onClick={() => {navigator.clipboard.writeText(generatedLink); setIsCopied(true); confetti();}} 
+        className={`py-3 rounded-xl font-bold text-sm transition-all ${isCopied ? 'bg-green-500' : 'bg-pink-500'}`}
+      >
+        {isCopied ? 'COPIED ✓' : 'COPY LINK'}
+      </button>
+
+      <a 
+        href="https://tinyurl.com/app" 
+        target="_blank" 
+        rel="noreferrer"
+        className="py-3 rounded-xl font-bold text-sm bg-white/10 hover:bg-white/20 border border-white/20 transition-all text-center flex items-center justify-center gap-2"
+      >
+        SHORTEN LINK 🔗
+      </a>
+    </div>
+    
+    <p className="text-[9px] text-gray-500 mt-4 text-center italic">
+      Tip: Copy the link first, then click shorten to paste it on TinyURL.
+    </p>
           </div>
         )}
       </div>
