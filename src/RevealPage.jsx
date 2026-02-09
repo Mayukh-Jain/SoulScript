@@ -19,9 +19,24 @@ const RevealPage = () => {
     const data = searchParams.get('gift');
     if (data) {
       try {
-        const bytes = Uint8Array.from(atob(data), c => c.charCodeAt(0));
-        setGiftData(JSON.parse(new TextDecoder().decode(bytes)));
-      } catch (e) { console.error("Link error"); }
+        // 1. Decode Base64 to a string of raw bytes
+        const binaryString = atob(data);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        
+        for (let i = 0; i < len; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        // 2. Decode the bytes as UTF-8 text
+        const decodedData = new TextDecoder().decode(bytes);
+        
+        // 3. Parse the JSON
+        setGiftData(JSON.parse(decodedData));
+      } catch (e) {
+        console.error("Link error:", e);
+        // Optional: Redirect to home or show a user-friendly error
+      }
     }
   }, [searchParams]);
 
