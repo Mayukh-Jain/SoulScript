@@ -2,6 +2,8 @@
 
 > Transform memories into an immersive Valentine's Day experience
 
+![Logo](public/logo.png)
+
 SoulScript is a narrative-driven, interactive digital gift engine that transforms personal memories into a premium storytelling experience. Built with privacy-first architecture and featuring high-end motion design, it creates an unforgettable journey for your special someone.
 
 [![Made with React](https://img.shields.io/badge/React-18.x-61dafb?style=flat&logo=react)](https://reactjs.org/)
@@ -173,6 +175,30 @@ Step 5: Celebration! 🎉
 
 ---
 
+## 📸 Screenshots
+
+### Creator Dashboard
+![Creator Page](public/creatorpage.png)
+*Intuitive interface for crafting your personalized love story*
+
+### Interactive Proposal
+![Proposal Page](public/proposal.png)
+*Playful "Will you be my Valentine?" experience with persuasive UX*
+
+### Narrative Timeline
+![Reveal Page](public/timeline.png)
+*Immersive journey through your cherished memories*
+
+### Zoom Parallax Gallery
+![Parallax Effect](public/gallery.png)
+*Dive deep into photo memories with 300vh scroll effect*
+
+### Scratch-to-Reveal Secret
+![Secret Vault](public/scratchcard.png)
+*Rose-gold metallic scratch card revealing your hidden message*
+
+---
+
 ## 🎨 Design Philosophy
 
 SoulScript embraces a **minimalist, emotion-first** approach:
@@ -217,7 +243,7 @@ This project showcases modern frontend engineering, creative UX design, and the 
 
 ### Connect
 - 📷 Instagram: [@mayukh__jain](https://instagram.com/mayukh__jain)
-- 🌐 Portfolio: [mayukhjain.vercel.app/](https://mayukhjain.vercel.app/)
+- 🌐 Portfolio: [mayukhjain.vercel.app](https://mayukhjain.vercel.app/)
 - 💼 GitHub: [@Mayukh-Jain](https://github.com/Mayukh-Jain)
 
 ---
