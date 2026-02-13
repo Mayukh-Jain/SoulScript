@@ -50,15 +50,38 @@ const RevealPage = () => {
 
   // Handle Scratch-off initialization
   useEffect(() => {
-    if (isOpened && canvasRef.current) {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#CBD5E1'; 
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.font = 'bold 20px serif'; ctx.fillStyle = '#64748B'; ctx.textAlign = 'center';
-      ctx.fillText('SCRATCH TO REVEAL', canvas.width / 2, canvas.height / 2);
+  if (isOpened && canvasRef.current) {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    // 1. Create a Rose Gold Metallic Gradient
+    const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+    gradient.addColorStop(0, '#fce4ec'); // Light Rose
+    gradient.addColorStop(0.5, '#f06292'); // Shimmer Pink
+    gradient.addColorStop(1, '#fce4ec'); 
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // 2. Add "Metallic Dust" (Textured Sparkles)
+    ctx.globalAlpha = 0.3;
+    for (let i = 0; i < 800; i++) {
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(
+        Math.random() * canvas.width, 
+        Math.random() * canvas.height, 
+        1.5, 1.5
+      );
     }
-  }, [isOpened]);
+    ctx.globalAlpha = 1.0;
+
+    // 3. Elegant Instruction Text
+    ctx.font = 'bold 22px serif';
+    ctx.fillStyle = '#880e4f'; // Deep Wine/Rose color
+    ctx.textAlign = 'center';
+    ctx.fillText('SCRATCH WITH LOVE ✨', canvas.width / 2, canvas.height / 2);
+  }
+}, [isOpened]);
 
   const handleScratch = (e) => {
     const canvas = canvasRef.current;
@@ -253,21 +276,61 @@ const RevealPage = () => {
 
             <AnimatePresence>
               {unlocked && (
-                <section className={slide}>
-                  <h2 className="text-3xl md:text-4xl mb-10 text-pink-800 font-bold uppercase tracking-widest">Secret Vault</h2>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-5xl overflow-y-auto px-2">
-                    {giftData.galleryUrls?.map((url, i) => (
-                      <motion.img 
-                        key={i} 
-                        src={url} 
-                        initial={{ scale: 0.5, opacity: 0 }} 
-                        whileInView={{ scale: 1, opacity: 1 }} 
-                        transition={{ delay: i * 0.1 }} 
-                        className="rounded-2xl md:rounded-3xl border-2 md:border-4 border-white shadow-lg h-32 md:h-48 w-full object-cover shadow-pink-100" 
-                      />
-                    ))}
-                  </div>
-                </section>
+                <section className={`${slide} min-h-screen py-20`}>
+  <motion.div 
+    initial={{ opacity: 0, y: 30 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    className="text-center mb-12"
+  >
+    <h2 className="text-3xl md:text-5xl mb-2 text-pink-800 font-black uppercase tracking-[0.2em]">
+      Secret Vault
+    </h2>
+    <div className="h-1 w-24 bg-pink-200 mx-auto rounded-full" />
+  </motion.div>
+
+  <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 w-full max-w-6xl px-4 space-y-6">
+    {giftData.galleryUrls?.map((url, i) => (
+      <motion.div
+        key={i}
+        initial={{ opacity: 0, scale: 0.9 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        transition={{ delay: i * 0.1 }}
+        whileHover={{ y: -10, transition: { duration: 0.2 } }}
+        className="relative group break-inside-avoid"
+      >
+        {/* Decorative Frame */}
+        <div className="relative overflow-hidden rounded-[2rem] bg-white p-3 shadow-xl shadow-pink-100/50 border border-pink-50 transition-all group-hover:shadow-2xl group-hover:shadow-pink-200/50">
+          <img 
+            src={url} 
+            alt={`Memory ${i + 1}`}
+            className="rounded-[1.5rem] w-full object-cover transition-transform duration-500 group-hover:scale-110"
+          />
+          
+          {/* Subtle Overlay on Hover */}
+          <div className="absolute inset-0 bg-gradient-to-t from-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+          
+          {/* Polaroid-style footer */}
+          <div className="pt-3 pb-1 text-center">
+            <p className="font-serif italic text-pink-300 text-xs uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+              Memory No. {i + 1}
+            </p>
+          </div>
+        </div>
+
+        {/* Floating Heart Decor for specific indices */}
+        {i % 3 === 0 && (
+          <motion.div 
+            animate={{ y: [0, -5, 0] }}
+            transition={{ repeat: Infinity, duration: 3 }}
+            className="absolute -top-3 -right-3 text-2xl z-10"
+          >
+            ✨
+          </motion.div>
+        )}
+      </motion.div>
+    ))}
+  </div>
+</section>
               )}
             </AnimatePresence>
 
